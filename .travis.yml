@@ -4,8 +4,8 @@ python:
   - 3.3
   - pypy
 install:
-  - pip install pytest
-  - pip install --process-dependency-links .
+  - pip3 install pytest
+  - pip3 install --process-dependency-links .
 script:
   - py.test tests/
 notifications:

@@ -8,7 +8,8 @@ See also:
 
 import hashlib
 from binascii import hexlify
-from ecdsa import curves, SigningKey, six
+import six
+from ecdsa import curves, SigningKey
 from ecdsa.util import sigencode_der
 from .serialize import (
     to_bytes, from_bytes, RippleBaseDecoder, serialize_object, fmt_hex)
@@ -18,7 +19,6 @@ __all__ = ('sign_transaction', 'signature_for_transaction')
 
 
 tfFullyCanonicalSig = 0x80000000
-
 
 def sign_transaction(transaction, secret, flag_canonical=True):
     """High-level signing function.hexlify

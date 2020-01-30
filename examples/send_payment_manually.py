@@ -2,7 +2,7 @@
 Example of working with the low-level ripple.client.Client API.
 """
 from __future__ import print_function
-import Queue
+from queue import Queue, Empty
 from ripple import get_ripple_from_secret, sign_transaction, transaction_hash, Amount
 
 
@@ -44,14 +44,14 @@ def cmd_pay(remote, secret, destination, amount):
         # Submit the transaction.
         remote.submit(tx_blob=tx)
         txhash = transaction_hash(tx)
-        print('Submitted transaction with hash %s, waiting for confirm' % txhash)
+        print('Submitted transaction with hash {}, waiting for confirm'.format(txhash))
 
         # Look for the final disposition.
         # TODO: That would actually involve looking at the values though
         # rather than just printing the first status update.
         while True:
             try:
-                tx = queue.get(timeout=1)
+                tx = queue.Queue.get(timeout=1)
             except Queue.Empty:
                 continue
 

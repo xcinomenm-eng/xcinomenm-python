@@ -1,9 +1,5 @@
 from __future__ import unicode_literals
-try:
-    from queue import Queue, Empty
-except ImportError:
-    # Python 2
-    from Queue import Queue, Empty
+from queue import Queue, Empty
 from decimal import Decimal
 import json
 import threading
@@ -13,13 +9,10 @@ from ripple import Amount
 from .serialize import serialize_object
 from .sign import hash_transaction, HASH_TX_ID, get_ripple_from_secret, sign_transaction
 
-
 __all__ = ('Remote', 'Client', 'RippleError')
-
 
 log = logging.getLogger('ripple.client')
 log.addHandler(logging.NullHandler())
-
 
 class RippleError(Exception):
     pass
@@ -225,7 +218,7 @@ class Client(object):
         """Runs the reading thread."""
         try:
             while not getattr(self, '_shutdown', False):
-                msg = json.loads(self.conn.recv().decode('utf-8'))
+                msg = json.loads(self.conn.recv())
                 log.debug('<<<<<<<< receiving % s', json.dumps(msg, indent=2))
 
                 type = msg['type']
@@ -345,6 +338,9 @@ class Client(object):
 
     def request_account_info(self, account):
         return self.execute("account_info", account=account)['account_data']
+
+    def request_account_tx(self, account):
+        return self.execute("account_tx", account=account, ledger_index_max=-1)['transactions']
 
     def submit(self, tx_blob=None, tx_json=None, secret=None):
         """Submit the transaction.
@@ -484,6 +480,10 @@ class Remote(object):
     def account_info(self, account):
         info = self.client.request_account_info(account)
         self._sequence_cache[account] = info['Sequence']
+        return info
+
+    def account_tx(self, account):
+        info = self.client.request_account_tx(account)
         return info
 
     def send_payment(self, destination, amount, account=None, flags=None,

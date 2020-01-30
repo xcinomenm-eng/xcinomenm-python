@@ -7,7 +7,8 @@ from setuptools import setup, find_packages
 install_requires = [
     'ecdsa>=0.10',
     'six>=1.5.2',
-    'websocket-client==0.14.0'
+    'websocket-client==0.57.0',
+    'pytest'
 ]
 
 
@@ -24,7 +25,7 @@ setup(
     install_requires=install_requires,
     classifiers=[
         'Development Status :: 3 - Alpha',
-        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python',
         'License :: OSI Approved :: BSD License',
     ]
 )
