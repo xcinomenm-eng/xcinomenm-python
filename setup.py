@@ -8,7 +8,8 @@ install_requires = [
     'ecdsa>=0.10',
     'six>=1.5.2',
     'websocket-client==0.57.0',
-    'pytest'
+    'pytest',
+    'setuptools>=40.0',
 ]
 
 
